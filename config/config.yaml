@@ -41,7 +41,7 @@ app:
 # ===============================================================
 schedule:
   enabled: true                         # 是否启用调度系统
-  preset: "morning_evening"             # 预设模板名称（见上方说明）
+  preset: "always_on"             # 预设模板名称（见上方说明）
 
 
 # ===============================================================
@@ -69,7 +69,7 @@ platforms:
 # max_age_days: 可选，覆盖全局 freshness_filter.max_age_days
 # ===============================================================
 rss:
-  enabled: false                       # 是否启用 RSS 抓取
+  enabled: true                       # 是否启用 RSS 抓取
 
   # 文章新鲜度过滤配置（全局默认值）
   # 过滤掉发布时间超过指定天数的旧文章，避免同一篇文章重复出现在推送中
@@ -82,7 +82,7 @@ rss:
   #    - 所有文章都会存入数据库（MCP Server 的 AI 查询仍可访问）
   #    - 只有新鲜的文章会被推送到通知渠道
   freshness_filter:
-    enabled: false                     # 是否启用新鲜度过滤（默认启用）
+    enabled: true                     # 是否启用新鲜度过滤（默认启用）
 
     max_age_days: 3                   # 最大文章年龄（天）
                                       # - 正整数：只推送 N 天内的文章
@@ -93,6 +93,10 @@ rss:
   # - 正整数：覆盖全局设置，只推送此天数内的文章
   # - 0：禁用此频道的新鲜度过滤，推送所有文章
   feeds:
+    - id: "https://rsshub.app/cls/telegraph"
+      name: "https://rsshub.app/cls/telegraph"
+      url: "https://rsshub.app/cls/telegraph"
+
 
 
 
@@ -125,7 +129,7 @@ rss:
 #    • 适用场景：避免重复信息干扰
 # ===============================================================
 report:
-  mode: "incremental"                     # 可选: daily | current | incremental
+  mode: "current"                     # 可选: daily | current | incremental
                                       # ⚠️ 开启调度系统后，此值会被当前时间段的 report_mode 覆盖
 
 
@@ -167,14 +171,14 @@ display:
     - standalone                       # 4️⃣ 独立展示区
     - ai_analysis                       # 5️⃣ AI 分析区域
   regions:
-    new_items: true # 新增热点区域（含热榜新增 + RSS 新增）
-    hotlist: false # 热榜区域（关键词匹配的热点新闻）
-    rss: false # RSS 订阅区域
+    new_items: false # 新增热点区域（含热榜新增 + RSS 新增）
+    hotlist: true # 热榜区域（关键词匹配的热点新闻）
+    rss: true # RSS 订阅区域
     standalone: false # 独立展示区（完整热榜/RSS，不受关键词过滤）
-    ai_analysis: false # AI 分析区域
+    ai_analysis: true # AI 分析区域
   standalone:
-    platforms: ["zhihu","cls-hot"] # 热榜平台 ID 列表（如 ["zhihu", "weibo"]）
-    rss_feeds: []                     # RSS 源 ID 列表（如 ["hacker-news"]）
+    platforms: ["zhihu","wallstreetcn-hot"] # 热榜平台 ID 列表（如 ["zhihu", "weibo"]）
+    rss_feeds: [] # RSS 源 ID 列表（如 ["hacker-news"]）
     max_items: 20                     # 每个源最多展示条数（0=不限制）
 
 
@@ -308,7 +312,7 @@ ai:
   
   model: "deepseek/deepseek-chat"
 
-  api_key: "sk-4f46cc17386745888a7489a7bd62b4fd"                       # API Key（建议使用环境变量 AI_API_KEY）
+  api_key: "sk-6b8e7853f0bd4969a67c717c4379e34c"                       # API Key（建议使用环境变量 AI_API_KEY）
   
   api_base: ""                      # 自定义 API 端点（可选，大多数情况留空）
                                     # 示例: https://api.openai.com/v1（自建代理或兼容接口）
@@ -329,7 +333,7 @@ ai:
   temperature: 1.0                  # 采样温度 (0.0-2.0)
                                     # 注意：部分模型(如 gpt-5)可能要求必须为 1.0，否则会报错
   
-  max_tokens: 5000                  # 最大生成 token 数
+  max_tokens: 10000                  # 最大生成 token 数
                                     # 注意：如果 API 不支持此参数(报 HTTP 400)，请设为 0 以禁用发送
   # 高级选项
   num_retries: 1                    # 失败重试次数
@@ -398,7 +402,7 @@ ai_analysis:
                                       # GitHub Action 部署默认推送约 20 次（每小时推送一次）， 约 0.1 元/天
                                       # Docker 部署默认推送 48 次(每半小时推送一次)， 约 0.2 元/天
 
-  include_rss: false                # 是否包含 RSS 内容进行分析
+  include_rss: true                # 是否包含 RSS 内容进行分析
   
   include_standalone: true          # 是否将独立展示区数据纳入 AI 分析（只需上方 display 区的 standalone 配置了平台/RSS 即可）
 
