@@ -93,9 +93,10 @@ rss:
   # - 正整数：覆盖全局设置，只推送此天数内的文章
   # - 0：禁用此频道的新鲜度过滤，推送所有文章
   feeds:
-    - id: "https://rsshub.app/cls/telegraph"
-      name: "https://rsshub.app/cls/telegraph"
+    - id: "cailian"
+      name: "财联社"
       url: "https://rsshub.app/cls/telegraph"
+
 
 
 
@@ -333,7 +334,7 @@ ai:
   temperature: 1.0                  # 采样温度 (0.0-2.0)
                                     # 注意：部分模型(如 gpt-5)可能要求必须为 1.0，否则会报错
   
-  max_tokens: 10000                  # 最大生成 token 数
+  max_tokens: 5000                  # 最大生成 token 数
                                     # 注意：如果 API 不支持此参数(报 HTTP 400)，请设为 0 以禁用发送
   # 高级选项
   num_retries: 1                    # 失败重试次数
